@@ -121,11 +121,10 @@ def preprocess_x_y(reformatted_x: pd.DataFrame, y: pd.DataFrame):
     num_columns = fill_missing_num_values(num_columns)
     nan_columns = fill_missing_nan_values(nan_columns)
     
-    ohe_nan_columns = pd.get_dummies(data=nan_columns, columns=['ethnicity', 'gender'])
     #transform categorical data
-    #dummies = pd.get_dummies(nan_columns)
-    #features = pd.concat([dummies, num_columns], axis=1)
+    ohe_nan_columns = pd.get_dummies(data=nan_columns, columns=['ethnicity', 'gender'])
+    features = pd.concat([num_columns, ohe_nan_columns], axis=1)
     
-    num_columns.to_csv("output.csv")
+    features.to_csv("features.csv")
     #return features, label_column
     
