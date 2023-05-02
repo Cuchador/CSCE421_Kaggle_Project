@@ -77,13 +77,12 @@ def fix_ages(feature_columns) -> pd.DataFrame:
     return feature_columns
 
 def fill_missing_num_values(num_columns: pd.DataFrame):
-    num_columns.ffill()
-    # num_columns['unitvisitnumber'] = num_columns['unitvisitnumber'].fillna(num_columns['unitvisitnumber'].median())
-    # num_columns['admissionweight'] = num_columns['admissionweight'].fillna(num_columns['admissionweight'].mean())
-    # num_columns['admissionheight'] = num_columns['admissionheight'].fillna(num_columns['admissionheight'].mean())
-    # num_columns['age'] = num_columns['age'].fillna(num_columns['age'].mean())
-    # num_columns['glucose_avg'] = num_columns['glucose_avg'].fillna(num_columns['glucose_avg']).mean()
-    # num_columns['ph_avg'] = num_columns['ph_avg'].fillna(num_columns['ph_avg'].mean())
+    num_columns['unitvisitnumber'] = num_columns['unitvisitnumber'].fillna(num_columns['unitvisitnumber'].median())
+    num_columns['admissionweight'] = num_columns['admissionweight'].fillna(num_columns['admissionweight'].mean())
+    num_columns['admissionheight'] = num_columns['admissionheight'].fillna(num_columns['admissionheight'].mean())
+    num_columns['age'] = num_columns['age'].fillna(num_columns['age'].mean())
+    num_columns['glucose_avg'] = num_columns['glucose_avg'].fillna(num_columns['glucose_avg'].mean())
+    num_columns['ph_avg'] = num_columns['ph_avg'].fillna(num_columns['ph_avg'].mean())
     return num_columns
 
 def force_numeric(feature_columns: pd.DataFrame) -> pd.DataFrame:
