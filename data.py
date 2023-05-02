@@ -106,7 +106,7 @@ def preprocess_x_y(reformatted_x: pd.DataFrame, y: pd.DataFrame):
     x = reformatted_x
     #extract features and labels
     #feature_columns = x.drop("patientunitstayid", axis='columns')
-    feature_columns = fix_ages(feature_columns)
+    feature_columns = fix_ages(x)
     
     #force numeric columns to be numeric
     feature_columns = force_numeric(feature_columns)
