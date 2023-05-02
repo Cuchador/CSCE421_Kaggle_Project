@@ -68,5 +68,8 @@ def reformat_x(train_x) -> pd.DataFrame:
     
     # Return the resulting dataframe
     #reformatted_x.to_csv("test.csv")
+
+    #one hot encode gender
+
     return reformatted_x
     
