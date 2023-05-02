@@ -105,7 +105,7 @@ def preprocess_x_y(reformatted_x: pd.DataFrame, y: pd.DataFrame):
     #x = reformatted_x.dropna()
     x = reformatted_x
     #extract features and labels
-    feature_columns = x.drop("patientunitstayid", axis='columns')
+    #feature_columns = x.drop("patientunitstayid", axis='columns')
     feature_columns = fix_ages(feature_columns)
     
     #force numeric columns to be numeric
@@ -115,7 +115,7 @@ def preprocess_x_y(reformatted_x: pd.DataFrame, y: pd.DataFrame):
     #select categorical vs numerical
     nan_columns = feature_columns.select_dtypes(exclude=['int', 'float'])
     num_columns = feature_columns.select_dtypes(include=['int', 'float'])
-    
+    print(nan_columns)
     #fill in missing values with middle values
     #this step is necessary so that we do not have to drop more rows
     num_columns = fill_missing_num_values(num_columns)
