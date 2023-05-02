@@ -85,6 +85,11 @@ def fill_missing_num_values(num_columns: pd.DataFrame):
     num_columns['ph_avg'] = num_columns['ph_avg'].fillna(num_columns['ph_avg'].mean())
     return num_columns
 
+def fill_missing_nan_values(nan_columns: pd.DataFrame):
+    nan_columns['ethnicity'] = nan_columns['ethnicity'].fillna('Other/Unknown')
+    nan_columns['gender'] = nan_columns['gender'].fillna('Male')
+    return nan_columns
+
 def force_numeric(feature_columns: pd.DataFrame) -> pd.DataFrame:
     feature_columns['unitvisitnumber'] = pd.to_numeric(feature_columns['unitvisitnumber'], errors='coerce', downcast='float')
     feature_columns['admissionweight'] = pd.to_numeric(feature_columns['admissionweight'], errors='coerce', downcast='float')
@@ -97,7 +102,6 @@ def preprocess_x_y(reformatted_x: pd.DataFrame, y: pd.DataFrame):
     #x = reformatted_x.dropna()
     x = reformatted_x
     #extract features and labels
-    #label_column = pd.merge(x, y, on='patientunitstayid')['hospitaldischargestatus']
     feature_columns = x.drop("patientunitstayid", axis='columns')
     feature_columns = fix_ages(feature_columns)
     
@@ -112,6 +116,7 @@ def preprocess_x_y(reformatted_x: pd.DataFrame, y: pd.DataFrame):
     #fill in missing values with middle values
     #this step is necessary so that we do not have to drop more rows
     num_columns = fill_missing_num_values(num_columns)
+    nan_columns = fill_missing_nan_values(nan_columns)
     
     #transform categorical data
     #dummies = pd.get_dummies(nan_columns)
