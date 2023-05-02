@@ -89,8 +89,8 @@ def fill_missing_num_values(num_columns: pd.DataFrame):
     return num_columns
 
 def fill_missing_nan_values(nan_columns: pd.DataFrame):
-    nan_columns['ethnicity'] = nan_columns['ethnicity'].fillna('Other/Unknown')
-    nan_columns['gender'] = nan_columns['gender'].fillna('Male')
+    nan_columns['ethnicity'].replace(to_replace="", value='Other/Unknown', inplace=True)
+    nan_columns['gender'].replace(to_replace="", value='Male', inplace=True)
     return nan_columns
 
 def force_numeric(feature_columns: pd.DataFrame) -> pd.DataFrame:
