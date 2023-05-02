@@ -1,7 +1,7 @@
 import torch
 import pandas as pd
 from sklearn.metrics import roc_auc_score
-from data import load_data, split_data, reformat_x
+from data import load_data, split_data, reformat_x, preprocess_x_y
 from model import Model
 from sklearn.ensemble import RandomForestClassifier
 
@@ -9,9 +9,10 @@ def main():
     # Load the data
     reformatted_x = reformat_x(load_data("data_files/train_x.csv"))
     y = load_data("data_files/train_y.csv")
+    preprocessed_x, preprocessed_y = preprocess_x_y(reformatted_x, y)
     return #not done preprocessing yet
     # Split the data into training and testing sets
-    train_x, test_x, train_y, test_y = split_data(reformatted_x, y, test_split=0.2)
+    train_x, test_x, train_y, test_y = split_data(preprocessed_x, y, test_split=0.2)
 
     # Initialize and train the model
     model = RandomForestClassifier()  # Add arguments as needed
