@@ -51,6 +51,25 @@ def group_lab_averages(grouped_x, lab_data):
     return grouped_x
 
 
+def get_nursing_chart_averages(train_x):
+    # Get average lab values for each patient
+    nursing_chart_tests = ['O2 Saturation, Heart Rate, Respiratory Rate, GCS Total, Non-Invasive BP Diastolic'
+                           'Non-Invasive BP Systolic', 'Non-Invasive BP Mean', 'Invasive BP Diastolic',
+                           'Invasive BP Systolic', 'Invasive BP Mean']
+    nursing_chart_data = train_x.loc[train_x['nursingchartcelltypevalname'].isin(nursing_chart_tests), ['patientunitstayid', 'nursingchartcelltypevalname', 'nursingchartvalue']]
+    nursing_chart_data = nursing_chart_data.groupby(['patientunitstayid', 'nursingchartcelltypevalname'])['nursingchartvalue'].max().unstack()
+    return nursing_chart_data
+
+
+def group_nursing_chart_averages(grouped_x, nursing_chart_data):
+    # Merge lab data into the dataframe
+    grouped_x = pd.merge(grouped_x, nursing_chart_data, on='patientunitstayid', how='left')
+    grouped_x = grouped_x.rename(columns={'O2 Saturation': 'o2_saturation_avg', 'Heart Rate': 'heart_rate_avg', 'Respiratory Rate': 'respiratory_rate_avg', 'GCS Total': 'gcs_total_avg',
+                                          'Non-Invasive BP Diastolic': 'non_invasive_bp_diastolic_avg', 'Non-Invasive BP Systolic': 'non_invasive_bp_systolic_avg', 'Non-Invasive BP Mean': 'non_invasive_bp_mean_avg',
+                                          'Invasive BP Diastolic': 'invasive_bp_diastolic_avg', 'Invasive BP Systolic': 'invasive_bp_systolic_avg', 'Invasive BP Mean': 'invasive_bp_mean_avg'})
+    return grouped_x
+
+
 # takes in train_x read in as a dataframe, returns a preprocessed dataframe
 def reformat_x(train_x: pd.DataFrame) -> pd.DataFrame:
     # Grab unique patientids
@@ -65,14 +84,12 @@ def reformat_x(train_x: pd.DataFrame) -> pd.DataFrame:
     grouped_x = get_admission_values(x, train_x, column_order)
     
     #grab the lab data from train_x and put it into our grouped data
-    reformatted_x = group_lab_averages(grouped_x, get_lab_averages(train_x))
+    grouped_lab_x = group_lab_averages(grouped_x, get_lab_averages(train_x))
     
-    # Return the resulting dataframe
-    #reformatted_x.to_csv("test.csv")
-
-    #one hot encode gender
-
-    return reformatted_x
+    #grab the nursing chart values from train_x and put it into our grouped data
+    reformatted_x = group_nursing_chart_averages(grouped_lab_x, get_nursing_chart_averages(train_x))
+    reformatted_x.to_csv("test.csv")
+    #return reformatted_x
 
 
 def fix_ages(feature_columns) -> pd.DataFrame:
