@@ -19,7 +19,7 @@ def get_unique_patientids(train_x: pd.DataFrame) -> np.ndarray:
     return pd.unique(train_x['patientunitstayid'])
 
 
-def get_addmission_values(x, train_x, column_order):
+def get_admission_values(x, train_x, column_order):
     # Merge the dataframes on the column 'patientunitstayid'
     x = pd.merge(x, train_x, on='patientunitstayid', how='left')
 
@@ -62,7 +62,7 @@ def reformat_x(train_x: pd.DataFrame) -> pd.DataFrame:
     x = pd.DataFrame({'patientunitstayid': patient_ids})
     
     #get the admission values
-    grouped_x = get_addmission_values(x, train_x, column_order)
+    grouped_x = get_admission_values(x, train_x, column_order)
     
     #grab the lab data from train_x and put it into our grouped data
     reformatted_x = group_lab_averages(grouped_x, get_lab_averages(train_x))
