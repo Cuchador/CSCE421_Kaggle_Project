@@ -10,7 +10,7 @@ def load_data(x_path) -> pd.DataFrame:
     return pd.read_csv(x_path, low_memory=False)
 
 
-def split_data(x, y, test_split=0.2):
+def split_data(x, y, test_split=0.01):
     # Your code here
     return train_test_split(x, y, test_size=test_split, random_state=42)
 
@@ -101,7 +101,7 @@ def reformat_x(train_x: pd.DataFrame) -> pd.DataFrame:
     reformatted_x = drop_columns_missing_data(reformatted_x)
     
     #reformatted_x.to_csv('nurseData.csv')
-    return reformatted_x
+    return reformatted_x, patient_ids
 
 
 def fix_ages(feature_columns) -> pd.DataFrame:
@@ -142,7 +142,7 @@ def force_numeric(feature_columns: pd.DataFrame) -> pd.DataFrame:
 
 def preprocess(reformatted_x: pd.DataFrame):
     #x = reformatted_x.dropna()
-    x = reformatted_x
+    x, indices = reformatted_x
     #extract features and labels
     #feature_columns = x.drop("patientunitstayid", axis='columns')
     feature_columns = fix_ages(x)
@@ -165,5 +165,5 @@ def preprocess(reformatted_x: pd.DataFrame):
     
     features = features.set_index('patientunitstayid')
     features.to_csv("features.csv")
-    return features
+    return features, indices
     
