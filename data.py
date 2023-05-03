@@ -135,7 +135,7 @@ def force_numeric(feature_columns: pd.DataFrame) -> pd.DataFrame:
     return feature_columns
 
 
-def preprocess_x_y(reformatted_x: pd.DataFrame, y: pd.DataFrame):
+def preprocess(reformatted_x: pd.DataFrame):
     #x = reformatted_x.dropna()
     x = reformatted_x
     #extract features and labels
