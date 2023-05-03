@@ -59,8 +59,6 @@ def get_nursing_chart_averages(train_x):
      train_x['nursingchartvalue'] = pd.to_numeric(train_x['nursingchartvalue'], errors='coerce', downcast='float')
 
      nursing_chart_data = train_x.loc[train_x['nursingchartcelltypevalname'].isin(nursing_chart_tests), ['patientunitstayid', 'nursingchartcelltypevalname', 'nursingchartvalue']]
-     
-     
 
      nursing_chart_data = nursing_chart_data.groupby(['patientunitstayid', 'nursingchartcelltypevalname'])['nursingchartvalue'].max().unstack()
      nursing_chart_data.to_csv('nurseData.csv')
@@ -112,6 +110,16 @@ def fill_missing_num_values(num_columns: pd.DataFrame):
     num_columns['age'] = num_columns['age'].fillna(num_columns['age'].mean())
     num_columns['glucose_avg'] = num_columns['glucose_avg'].fillna(num_columns['glucose_avg'].mean())
     num_columns['ph_avg'] = num_columns['ph_avg'].fillna(num_columns['ph_avg'].mean())
+    num_columns['heart_rate_avg'] = num_columns['heart_rate_avg'].fillna(num_columns['heart_rate_avg'].mean())
+    num_columns['gcs_total_avg'] = num_columns['gcs_total_avg'].fillna(num_columns['gcs_total_avg'].mean())
+    num_columns['invasive_bp_diastolic_avg'] = num_columns['invasive_bp_diastolic_avg'].fillna(num_columns['invasive_bp_diastolic_avg'].mean())
+    num_columns['invasive_bp_mean_avg'] = num_columns['invasive_bp_mean_avg'].fillna(num_columns['invasive_bp_mean_avg'].mean())
+    num_columns['invasive_bp_systolic_avg'] = num_columns['invasive_bp_systolic_avg'].fillna(num_columns['invasive_bp_systolic_avg'].mean())
+    num_columns['non_invasive_bp_diastolic_avg'] = num_columns['non_invasive_bp_diastolic_avg'].fillna(num_columns['non_invasive_bp_diastolic_avg'].mean())
+    num_columns['non_invasive_bp_mean_avg'] = num_columns['non_invasive_bp_mean_avg'].fillna(num_columns['non_invasive_bp_mean_avg'].mean())
+    num_columns['non_invasive_bp_systolic_avg'] = num_columns['non_invasive_bp_systolic_avg'].fillna(num_columns['non_invasive_bp_systolic_avg'].mean())
+    num_columns['o2_saturation_avg'] = num_columns['o2_saturation_avg'].fillna(num_columns['o2_saturation_avg'].mean())
+    num_columns['respiratory_rate_avg'] = num_columns['respiratory_rate_avg'].fillna(num_columns['respiratory_rate_avg'].mean())
     return num_columns
 
 def fill_missing_nan_values(nan_columns: pd.DataFrame):
