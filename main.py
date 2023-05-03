@@ -20,14 +20,10 @@ def main():
     model.fit(train_x, train_y)
 
     # Make predictions on the test set
-<<<<<<< Updated upstream
-    predictions = model.predict(test_x)[:, 1]
-    
-=======
     predictions = [i[1] for i in model.predict_proba(test_x)]
     display(train_y)
     print(model.predict_proba(test_x))
->>>>>>> Stashed changes
+
     # Evaluate the model using accuracy score
     accuracy = roc_auc_score(test_y, predictions)
     print("Accuracy Score:", accuracy)
