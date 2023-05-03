@@ -59,9 +59,7 @@ def get_nursing_chart_averages(train_x):
      train_x['nursingchartvalue'] = pd.to_numeric(train_x['nursingchartvalue'], errors='coerce', downcast='float')
 
      nursing_chart_data = train_x.loc[train_x['nursingchartcelltypevalname'].isin(nursing_chart_tests), ['patientunitstayid', 'nursingchartcelltypevalname', 'nursingchartvalue']]
-
-     nursing_chart_data = nursing_chart_data.groupby(['patientunitstayid', 'nursingchartcelltypevalname'])['nursingchartvalue'].max().unstack()
-     nursing_chart_data.to_csv('nurseData.csv')
+     nursing_chart_data = nursing_chart_data.groupby(['patientunitstayid', 'nursingchartcelltypevalname'])['nursingchartvalue'].mean().unstack()
      return nursing_chart_data
 
 
@@ -73,6 +71,9 @@ def group_nursing_chart_averages(grouped_x, nursing_chart_data):
                                            'Invasive BP Diastolic': 'invasive_bp_diastolic_avg', 'Invasive BP Systolic': 'invasive_bp_systolic_avg', 'Invasive BP Mean': 'invasive_bp_mean_avg'})
      return grouped_x
 
+def drop_columns_missing_data(reformatted_x: pd.DataFrame):
+    #return reformatted_x.drop(columns=['invasive_bp_diastolic_avg', 'invasive_bp_systolic_avg', 'invasive_bp_mean_avg', 'ph_avg', 'glucose_avg'])
+    return reformatted_x.drop(columns=['ph_avg', 'glucose_avg'])
 
 # takes in train_x read in as a dataframe, returns a preprocessed dataframe
 def reformat_x(train_x: pd.DataFrame) -> pd.DataFrame:
@@ -95,7 +96,11 @@ def reformat_x(train_x: pd.DataFrame) -> pd.DataFrame:
     
     #grab the nursing chart values from train_x and put it into our grouped data
     reformatted_x = group_nursing_chart_averages(reformatted_x, get_nursing_chart_averages(train_x))
-    #reformatted_x.to_csv("test.csv")
+    
+    #drop columns with a lot of missing values
+    reformatted_x = drop_columns_missing_data(reformatted_x)
+    
+    #reformatted_x.to_csv('nurseData.csv')
     return reformatted_x
 
 
@@ -108,8 +113,8 @@ def fill_missing_num_values(num_columns: pd.DataFrame):
     num_columns['admissionweight'] = num_columns['admissionweight'].fillna(num_columns['admissionweight'].mean())
     num_columns['admissionheight'] = num_columns['admissionheight'].fillna(num_columns['admissionheight'].mean())
     num_columns['age'] = num_columns['age'].fillna(num_columns['age'].mean())
-    num_columns['glucose_avg'] = num_columns['glucose_avg'].fillna(num_columns['glucose_avg'].mean())
-    num_columns['ph_avg'] = num_columns['ph_avg'].fillna(num_columns['ph_avg'].mean())
+    #num_columns['glucose_avg'] = num_columns['glucose_avg'].fillna(num_columns['glucose_avg'].mean())
+    #num_columns['ph_avg'] = num_columns['ph_avg'].fillna(num_columns['ph_avg'].mean())
     num_columns['heart_rate_avg'] = num_columns['heart_rate_avg'].fillna(num_columns['heart_rate_avg'].mean())
     num_columns['gcs_total_avg'] = num_columns['gcs_total_avg'].fillna(num_columns['gcs_total_avg'].mean())
     num_columns['invasive_bp_diastolic_avg'] = num_columns['invasive_bp_diastolic_avg'].fillna(num_columns['invasive_bp_diastolic_avg'].mean())
