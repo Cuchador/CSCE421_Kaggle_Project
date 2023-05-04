@@ -3,7 +3,7 @@ import pandas as pd
 from sklearn.metrics import roc_auc_score
 from data import load_data, split_data, reformat_x, preprocess
 from model import Model
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from IPython.display import display
 
 def main():
@@ -18,7 +18,7 @@ def main():
     train_x, test_x, train_y, test_y = split_data(preprocessed_x, y["hospitaldischargestatus"], test_split=0.2)
 
     # Initialize and train the model
-    model = RandomForestClassifier(n_estimators=200)  # Add arguments as needed
+    model = GradientBoostingClassifier()  # Add arguments as needed
     model.fit(train_x, train_y)
 
     # Make predictions on the test set
