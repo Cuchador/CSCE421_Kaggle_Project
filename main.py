@@ -18,7 +18,7 @@ def main():
     train_x, test_x, train_y, test_y = split_data(preprocessed_x, y["hospitaldischargestatus"], test_split=0.2)
 
     # Initialize and train the model
-    model = RandomForestClassifier()  # Add arguments as needed
+    model = RandomForestClassifier(n_estimators=200)  # Add arguments as needed
     model.fit(train_x, train_y)
 
     # Make predictions on the test set
@@ -27,8 +27,8 @@ def main():
     print(model.predict_proba(test_x))
 
     # Evaluate the model using accuracy score
-    # accuracy = roc_auc_score(test_y, predictions)
-    # print("Accuracy Score:", accuracy)
+    #accuracy = roc_auc_score(test_y, predictions)
+    #print("Accuracy Score:", accuracy)
 
     df = pd.DataFrame(predictions, index=[int(i) for i in indices])
     display(df)
