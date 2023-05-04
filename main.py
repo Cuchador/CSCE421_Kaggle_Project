@@ -2,7 +2,6 @@ import torch
 import pandas as pd
 from sklearn.metrics import roc_auc_score
 from data import load_data, split_data, reformat_x, preprocess
-from model import Model
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from IPython.display import display
 
